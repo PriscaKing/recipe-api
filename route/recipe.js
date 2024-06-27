@@ -1,32 +1,31 @@
 import { Router } from "express";
-import { RecipeModel } from "../models/recipe.js";
+import { deleteRecipes, getRecipe, getRecipes, patchRecipes, postRecipes } from "../controllers/recipe.js";
 
-    //create a router
-const recipeRouter =Router();
+//create a router
+const recipeRouter = Router();
+
+
 
 // Define routes
-recipeRouter.get('/recipes',(req, res)=>{
-    res.json('All recipes');
-});
+//the trycatch will avoid the app from crashing.It is a better way of handling errors and gives a more 'productive' feedback
+recipeRouter.get('/recipes', getRecipes);
 
-recipeRouter.post('/recipes',async (req, res)=>{
-    //Add recipe to database
-    await RecipeModel.create(req.body);
-    //return response
-    res.json("Recipe added");
-});
 
-recipeRouter.patch('/recipes/:id',(req, res)=>{
-    res.json(`Recipe with ID ${req.params.id} Updated`);
-});
 
-recipeRouter.delete('/recipes/:id',(req, res)=>{
-    res.json(`Recipe with ID ${req.params.id} deleted`);
-});
+recipeRouter.post('/recipes', postRecipes);
 
-recipeRouter.get('/recipes/:id', (req, res) => {
-    res.json(`Recipe with ID ${req.params.id} received`)
-})
+
+
+recipeRouter.patch('/recipes/:id', patchRecipes);
+
+
+
+recipeRouter.delete('/recipes/:id', deleteRecipes);
+
+
+
+recipeRouter.get('/recipes/:id', getRecipe);
+
 
 //Export routes
 export default recipeRouter;

@@ -2,7 +2,8 @@ import { Schema, model } from "mongoose";
 
 
 const recipeSchema = new Schema({
-    name:{type: String},
+    //unique/require is termed validation
+    name:{type: String, unique: true, required:true},
     ingredients:[{type: String }]
 });
 

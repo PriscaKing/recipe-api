@@ -14,15 +14,6 @@ const app = express();
 app.use(express.json());
 
 
-//Define routes
-app.get('/',(req,res)=>{
-    res.json('Welcome home');
-});
-
-app.post('/login', (req, res)=>{
-    res.json('Login Successful');
-});
-
 //Use routes
 app.use(recipeRouter);
 
