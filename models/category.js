@@ -1,5 +1,6 @@
 import { Schema, model } from "mongoose";
-import normalize from "normalize-mongoose";
+// import normalize from "normalize-mongoose";
+import { toJSON } from "@reis/mongoose-to-json";
 
     const categorySchema = new Schema({
         name:{type:String, required: true, unique: true},
@@ -9,6 +10,6 @@ import normalize from "normalize-mongoose";
     });
 
 
-    categorySchema.plugin(normalize);
+    categorySchema.plugin(toJSON);
 
-    export const CategoryModel = model('Category', categorySchema)
+    export const CategoryModel = model('Category', categorySchema);

@@ -5,18 +5,18 @@ import { RecipeModel } from "../models/recipe.js";
 //Get all recipes
 export const getRecipes = async (req, res, next) => {
     try {
-          //Get all recipes from database
-          const allRecipes = await RecipeModel.find()
-          //Return all recipes as response
-          res.json(allRecipes);
-    } catch (error) { 
+        //Get all recipes from database
+        const allRecipes = await RecipeModel.find()
+        //Return all recipes as response
+        res.json(allRecipes);
+    } catch (error) {
     }
-   }
+}
 
 
 
-   //Post all recipes
-   export const postRecipes = async (req, res, next) => {
+//Post all recipes
+export const postRecipes = async (req, res, next) => {
     try {
         //Add recipe to database
         const newRecipe = await RecipeModel.create(req.body);
@@ -30,9 +30,23 @@ export const getRecipes = async (req, res, next) => {
 
 //Patch Recipes
 
-export const patchRecipes = (req, res) => {
-    res.json(`Recipe with ID ${req.params.id} Updated`);
+export const patchRecipes = async (req, res, next) => {
+    try {
+        //Update recipe by id
+        const updatedRecipe = await RecipeModel.findByIdAndUpdate(req.params.id, req.body, { new: true });
+        //Return response
+        res.json(updatedRecipe)
+    } catch (error) {
+        next(error);
+
+    }
 }
+
+
+// export const patchRecipes = (req, res) => {
+//     res.json(`Recipe with ID ${req.params.id} Updated`);
+// }
+
 
 
 //Delete Recipes
@@ -43,13 +57,26 @@ export const deleteRecipes = async (req, res, next) => {
         //Return response
         res.json(deleteRecipes);
     } catch (error) {
-    next(error)  
+        next(error)
     }
 }
 
 
 
 //Get specific ID Recipes
-export const getRecipe = (req, res) => {
-    res.json(`Recipe with ID ${req.params.id} received`);
+// export const getRecipe = (req, res) => {
+//     res.json(`Recipe with ID ${req.params.id} received`);
+// }
+
+
+export const getRecipe = async (req, res, next) => {
+    try {
+        //Get a recipe by id
+        const getNewRecipe = await RecipeModel.findById(req.params.id)
+        //Return response
+        res.json(getNewRecipe);
+    } catch (error) {
+        next(error)
+
+    }
 }
