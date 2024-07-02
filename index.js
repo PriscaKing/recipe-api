@@ -13,6 +13,7 @@ await mongoose.connect(process.env.MONGO_URL)
 //Create Express App
 const app = express();
 expressOasGenerator.handleResponses(app,{
+    alwaysServeDocs:true,
     tags:['categories','recipes'],
     mongooseModels:mongoose.modelNames(),
 })
@@ -27,6 +28,7 @@ app.use(recipeRouter);
 app.use(categoryRouter);
 expressOasGenerator.handleRequests();
 app.use((req,res)=> res.redirect('api-docs/'));
+app.use(express.static('uploads'));
 
 
 
