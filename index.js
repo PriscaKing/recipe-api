@@ -1,4 +1,5 @@
 import express from "express"; 
+import cors from "cors";
 import mongoose from "mongoose";
 import {toJSON} from "@reis/mongoose-to-json";
 import expressOasGenerator from "express-oas-generator";
@@ -24,6 +25,7 @@ app.use(express.json());
 
 
 //Use routes
+app.use(cors());
 app.use(recipeRouter);
 app.use(categoryRouter);
 expressOasGenerator.handleRequests();

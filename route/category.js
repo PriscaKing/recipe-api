@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { getCategories, postCategory } from "../controllers/category.js";
 import multer from "multer";
-import { localUpload } from "../middlewares/upload.js";
+import { localUpload, remoteUpload } from "../middlewares/upload.js";
 
 //create upload middleware
 //This middleware should not be used on the guest
@@ -16,7 +16,8 @@ const categoryRouter = Router();
 categoryRouter.get('/categories', getCategories);
 
 
-categoryRouter.post('/categories', localUpload.single('image'), postCategory);
+//Defining a remote upload
+categoryRouter.post('/categories', remoteUpload.single('image'), postCategory);
 
 //Express router
 
