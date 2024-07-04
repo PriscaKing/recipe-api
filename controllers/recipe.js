@@ -12,10 +12,10 @@ export const getRecipes = async (req, res, next) => {
         const allRecipes = await RecipeModel
         .find(filter)
         .limit(limit)
-        .skio(skip);
+        .skip(skip);
             
         //Return all recipes as response
-        res.json(allRecipes);
+        res.status(200).json(allRecipes);
     } catch (error) {
         next(error);
     }
@@ -33,7 +33,7 @@ export const postRecipes = async (req, res, next) => {
                 Image: req.file.filename
             });
         //return response       
-        res.json(newRecipe);
+        res.status(200).json(newRecipe);
     } catch (error) {
         next(error);
     }

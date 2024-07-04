@@ -5,7 +5,7 @@ import { localUpload, remoteUpload } from "../middlewares/upload.js";
 
 //create upload middleware
 //This middleware should not be used on the guest
-const upload = multer({dest: 'uploads'});
+// const upload = multer({dest: 'uploads'});
 
 
 //create a router
