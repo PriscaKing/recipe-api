@@ -3,8 +3,10 @@ import cors from "cors";
 import mongoose from "mongoose";
 import {toJSON} from "@reis/mongoose-to-json";
 import expressOasGenerator from "express-oas-generator";
+import session from "express-session";
 import recipeRouter from "./route/recipe.js";
 import categoryRouter from "./route/category.js";
+import userRouter from "./route/user.js";
 
 
 //Connect to database
@@ -22,15 +24,23 @@ expressOasGenerator.handleResponses(app,{
 
 //Apply middlewares
 app.use(express.json());
+app.use(cors());
+app.use(express.static('uploads'));
+app.use(session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+  saveUninitialized: true,
+  cookie: { secure: true }
+}));
 
 
 //Use routes
-app.use(cors());
+app.use(userRouter);
 app.use(recipeRouter);
 app.use(categoryRouter);
 expressOasGenerator.handleRequests();
 app.use((req,res)=> res.redirect('api-docs/'));
-app.use(express.static('uploads'));
+
 
 
 
