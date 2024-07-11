@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { register } from "../controllers/userauth.js";
+import { login, logout, profile, register } from "../controllers/userauth.js";
 import { checkUserSession } from "../middlewares/auth.js";
 
 //Create router  
@@ -10,7 +10,13 @@ const userRouter = Router();
 
 
 //define route
-userRouter.post('/register',checkUserSession, register );
+userRouter.post('/register', register );
+
+userRouter.post('/login', login);
+
+userRouter.post('/logout',checkUserSession, logout);//Do checkUserSession because you cannot logout without logging in
+
+userRouter.get('/profile', checkUserSession, profile);
 
 
 //export router   

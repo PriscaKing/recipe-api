@@ -1,9 +1,10 @@
-import express from "express"; 
+import express from "express";
 import cors from "cors";
 import mongoose from "mongoose";
-import {toJSON} from "@reis/mongoose-to-json";
+import { toJSON } from "@reis/mongoose-to-json";
 import expressOasGenerator from "express-oas-generator";
 import session from "express-session";
+import MongoStore from "connect-mongo";
 import recipeRouter from "./route/recipe.js";
 import categoryRouter from "./route/category.js";
 import userRouter from "./route/user.js";
@@ -15,10 +16,10 @@ await mongoose.connect(process.env.MONGO_URL)
 
 //Create Express App
 const app = express();
-expressOasGenerator.handleResponses(app,{
-    alwaysServeDocs:true,
-    tags:['categories','recipes'],
-    mongooseModels:mongoose.modelNames(),
+expressOasGenerator.handleResponses(app, {
+    alwaysServeDocs: true,
+    tags: ['categories', 'recipes'],
+    mongooseModels: mongoose.modelNames(),
 })
 
 
@@ -29,8 +30,11 @@ app.use(express.static('uploads'));
 app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,
-  saveUninitialized: true,
-  cookie: { secure: true }
+    saveUninitialized: true,
+    //   cookie: { secure: true }
+    store:MongoStore.create({
+        mongoUrl:process.env.MONGO_URL
+    })
 }));
 
 
@@ -39,7 +43,7 @@ app.use(userRouter);
 app.use(recipeRouter);
 app.use(categoryRouter);
 expressOasGenerator.handleRequests();
-app.use((req,res)=> res.redirect('api-docs/'));
+app.use((req, res) => res.redirect('api-docs/'));
 
 
 
